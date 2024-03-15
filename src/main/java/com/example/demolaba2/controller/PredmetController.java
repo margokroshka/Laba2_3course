@@ -5,7 +5,9 @@ import com.example.demolaba2.dto.Prepod;
 import com.example.demolaba2.repository.PredmetRepository;
 import com.example.demolaba2.repository.PrepodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,13 +34,13 @@ public class PredmetController {
         return "inputPrepodDayClassroom";
     }
 
+
     @PostMapping("/prepodDayClassroom")
-    public String showTeacherDayClassroom(@RequestParam("day_of_week") String day_of_week,
-                                          @RequestParam("number_class") Integer number_class,
-                                          Model model) {
-        List<Predmet> predmetList = predmetRepository.getPrepodDayClassroom(day_of_week, number_class);
-        model.addAttribute("info", predmetList);
-        return "showPrepodDayClassroom";
+    public String showPrepodDayClassroom(@RequestParam("day_of_week") String day_of_week,
+                                         @RequestParam("number_class") Integer number_class) {
+        List<Predmet> prepodList = prepodRepository.getPrepodDayClassroom(day_of_week, number_class);
+
+        return prepodList.toString();
     }
 
     //Task2
@@ -49,12 +51,9 @@ public class PredmetController {
     }
 
     @PostMapping("/prepodNotInThisDay")
-    public String showPrepodNotInThisDay(@RequestParam("day_of_week") String day_of_week,
-                                         Model model) {
+    public String showPrepodNotInThisDay(@RequestParam("day_of_week") String day_of_week, Model model) {
         List<Prepod> prepods = prepodRepository.getPrepodNotInThisDay(day_of_week);
-
-        model.addAttribute("info", prepods);
-        return "showPrepodNotInThisDay";
+        return model.addAttribute("info", prepods).toString();
     }
 
     //Task3
@@ -65,11 +64,9 @@ public class PredmetController {
     }
 
     @PostMapping("/dayOfWeekInDayClassesAmount")
-    public String showDayOfWeekInDayClassesAmount(@RequestParam("classesAmount") Integer classesAmount,
-                                                  Model model) {
+    public String showDayOfWeekInDayClassesAmount(@RequestParam("classesAmount") Integer classesAmount, Model model) {
         List<Predmet> predmets = predmetRepository.getDayOfWeekInDayClassesAmount(classesAmount);
-        model.addAttribute("info", predmets);
-        return "showDayOfWeekInDayClassesAmount";
+        return model.addAttribute("info", predmets).toString();
     }
 
     //Task4
@@ -80,11 +77,9 @@ public class PredmetController {
     }
 
     @PostMapping("/dayOfWeekInDayClassroomsAmount")
-    public String showDayOfWeekInDayClassroomsAmount(@RequestParam("classroomsAmount") Integer classroomsAmount,
-                                                     Model model) {
+    public String showDayOfWeekInDayClassroomsAmount(@RequestParam("classroomsAmount") Integer classroomsAmount, Model model) {
         List<Predmet> predmets = predmetRepository.getDayOfWeekInDayClassroomsAmount(classroomsAmount);
         System.out.println(predmets);
-        model.addAttribute("info", predmets);
-        return "showDayOfWeekInDayClassroomsAmount";
+        return model.addAttribute("info", predmets).toString();
     }
 }
